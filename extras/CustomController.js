@@ -1,6 +1,6 @@
 /* eslint-disable jsdoc/no-undefined-types */
 
-import { Controller, GUI, injectStyles } from '../dist/lil-gui.esm.js';
+import { Controller, GUI, injectStyles } from 'lil-gui';
 
 export default class CustomController extends Controller {
 
