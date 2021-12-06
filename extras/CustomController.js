@@ -1,7 +1,8 @@
-/* eslint-disable jsdoc/no-undefined-types */
+import { Controller, GUI, injectStyles } from '../dist/lil-gui.esm.js';
 
-import { Controller, GUI, injectStyles } from 'lil-gui';
-
+/**
+ * @template T
+ */
 export default class CustomController extends Controller {
 
 	/**
@@ -22,7 +23,7 @@ export default class CustomController extends Controller {
 
 		injectStyles( style );
 
-		// Register method
+		// Register creation method
 		GUI.prototype[ method ] = function() {
 			return new CustomClass( this, ...arguments );
 		};
@@ -43,6 +44,9 @@ export default class CustomController extends Controller {
 
 		this.$constructor( ...Array.from( arguments ).slice( 3 ) );
 
+		/**
+		 * @type {T}
+		 */
 		this._initialValue = this.save();
 
 		this.updateDisplay();
@@ -105,9 +109,9 @@ export default class CustomController extends Controller {
 	/**
 	 * todo
 	 * @param {function(T)} setter
-	 * @param {boolean} isFinal
+	 * @param {boolean} [isFinal]
 	 */
-	$modifyValue( setter, isFinal ) {
+	$modifyValue( setter, isFinal = false ) {
 
 		setter( this.getValue() );
 
