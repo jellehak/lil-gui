@@ -3,4 +3,5 @@ node_modules
 style/icons.scss
 API.md
 /index.html
+*.d.ts
 deploy

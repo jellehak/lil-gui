@@ -23,7 +23,7 @@
     "icons": "node -r esm scripts/icons.js",
     "test": "node -r esm tests/utils/runner.js",
     "api": "node -r esm scripts/api.js --write",
-    "types": "tsc dist/lil-gui.esm.js --declaration --allowJs --emitDeclarationOnly --outDir dist",
+    "types": "tsc 'dist/lil-gui.esm.js' 'extras/*.js' --declaration --allowJs --emitDeclarationOnly",
     "homepage": "node -r esm scripts/homepage.js",
     "server": "browser-sync start -s -f 'dist' 'index.html' 'examples' --no-open --no-notify --no-ui --no-ghost-mode --no-inject-changes",
     "clean": "rimraf -rf dist/*",
