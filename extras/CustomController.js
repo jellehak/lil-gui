@@ -122,6 +122,10 @@ export default class CustomController extends Controller {
 
 	}
 
+	$onFinishChange() {
+		this._callOnFinishChange();
+	}
+
 	disable( disabled ) {
 		super.disable( disabled );
 		this._formElements.forEach( el => el.toggleAttribute( 'disabled', disabled ) );
