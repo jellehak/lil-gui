@@ -1,7 +1,7 @@
-dist
+/dist
+/types
 node_modules
-style/icons.scss
-API.md
+/style/icons.scss
+/API.md
 /index.html
-*.d.ts
-deploy
+/deploy
