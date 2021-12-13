@@ -32,7 +32,9 @@
     "dev": "npm run build:all && node -r esm scripts/dev.js"
   },
   "files": [
-    "dist"
+    "dist",
+    "extras",
+    "types"
   ],
   "license": "MIT",
   "devDependencies": {
