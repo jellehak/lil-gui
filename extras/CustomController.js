@@ -1,6 +1,7 @@
 import { Controller, GUI, injectStyles } from '../dist/lil-gui.esm.js';
 
 /**
+ * Extend this class to define a custom controller.
  * @template T
  */
 export default class CustomController extends Controller {
@@ -14,9 +15,9 @@ export default class CustomController extends Controller {
 		const method = CustomClass.$method;
 
 		// Add scope to each css declaration
-		const CSS_SELECTOR = /(?<=^|\}\s*)([ \S]+?)(?=\s*\{)/gm;
-		const scoped = `.lil-gui .controller.custom.${method} $1`;
-		const style = CustomClass.$style.replace( CSS_SELECTOR, scoped );
+		const CSS_SELECTORS = /(?<=^|\}\s*)[\S ]+?(?=\s*\{)/gm;
+		const scoped = `.lil-gui .controller.${method} $&`;
+		const style = CustomClass.$style.replace( CSS_SELECTORS, scoped );
 
 		injectStyles( style );
 
@@ -31,32 +32,34 @@ export default class CustomController extends Controller {
 
 		super( parent, object, property, 'custom' );
 
-		this.domElement.classList.add( this.constructor.$method );
-
 		/**
-		 * List of HTML elements to disable.
+		 * List of HTML elements passed to $prepareFormElement. Used in disable().
 		 * @type {HTMLElement[]}
 		 */
 		this._formElements = [];
 
-		this.$constructor( ...args );
-
 		/**
+		 * Used for reset().
 		 * @type {T}
 		 */
 		this._initialValue = this.save();
 
+		// Used to scope styles to this controller
+		this.domElement.classList.add( this.constructor.$method );
+
+		this.$constructor( ...args );
 		this.updateDisplay();
 
 	}
 
 	/**
-	 * todo
+	 * Called on controller creation. Receives all the parameters after
+	 * gui.addXXX( object, property, ...
 	 */
 	$constructor() {}
 
 	/**
-	 * todo
+	 * Should update the controller's widget to reflect a given value.
 	 * @param {T} value
 	 */
 	// eslint-disable-next-line no-unused-vars
