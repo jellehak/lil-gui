@@ -11,15 +11,12 @@ export default class CustomController extends Controller {
 	 */
 	static register( CustomClass ) {
 
-		const method = CustomClass.method;
+		const method = CustomClass.$method;
 
 		// Add scope to each css declaration
-		const scope = '.lil-gui .controller.custom.' + method;
-
-		let style = CustomClass.style;
-		style = style.replace( /(^|\})(\s*)([ \S]+?)(\s*)\{/gm, ( ...args ) => {
-			return `${args[ 1 ]}${args[ 2 ]}${scope} ${args[ 3 ]} {`;
-		} );
+		const CSS_SELECTOR = /(?<=^|\}\s*)([ \S]+?)(?=\s*\{)/gm;
+		const scoped = `.lil-gui .controller.custom.${method} $1`;
+		const style = CustomClass.$style.replace( CSS_SELECTOR, scoped );
 
 		injectStyles( style );
 
@@ -30,11 +27,11 @@ export default class CustomController extends Controller {
 
 	}
 
-	constructor( parent, object, property ) {
+	constructor( parent, object, property, ...args ) {
 
 		super( parent, object, property, 'custom' );
 
-		this.domElement.classList.add( this.constructor.method );
+		this.domElement.classList.add( this.constructor.$method );
 
 		/**
 		 * List of HTML elements to disable.
@@ -42,7 +39,7 @@ export default class CustomController extends Controller {
 		 */
 		this._formElements = [];
 
-		this.$constructor( ...Array.from( arguments ).slice( 3 ) );
+		this.$constructor( ...args );
 
 		/**
 		 * @type {T}
@@ -98,10 +95,6 @@ export default class CustomController extends Controller {
 			el.setAttribute( 'aria-label', name );
 		} else {
 			el.setAttribute( 'aria-labelledby', this.$name.id );
-		}
-
-		if ( el instanceof HTMLInputElement || el instanceof HTMLTextAreaElement ) {
-			this._captureKeyEvents( el );
 		}
 
 	}
