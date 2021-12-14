@@ -39,7 +39,7 @@ rules:
   space-in-parens: [ warn, always, { exceptions: [ empty ] } ]
   space-infix-ops: warn
 overrides:
-  - files: [ src/**/*.js ]
+  - files: [ src/**/*.js, extras/**/*.js ]
     plugins: 
       - jsdoc
     extends:
@@ -56,6 +56,6 @@ overrides:
   - files: [ rollup.config.js, scripts/**/*.js, tests/**/*.js ]
     env:
       node: true
-  - files: [ src/**/*.js, tests/*.test.js ]
+  - files: [ src/**/*.js, extras/**/*.js, tests/*.test.js ]
     rules:
       no-console: warn
