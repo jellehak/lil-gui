@@ -8,7 +8,7 @@ import pkg from '../package.json';
 import jsdocData from './api';
 
 const OUTPUT = 'index.html';
-const TEMPLATE = 'scripts/homepage.hbs.html';
+const TEMPLATE = 'homepage/homepage.hbs.html';
 const README = 'README.md';
 const GUIDE = 'Guide.md';
 const MIGRATING = 'Migrating.md';
@@ -22,7 +22,7 @@ console.time( 'homepage' );
 let readme = read( README );
 
 // remove homepage link
-readme = readme.replace( '[**Homepage**](https://lil-gui.georgealways.com/) • ', '' );
+readme = readme.replace( '[**Homepage**](https://lil-gui.georgealways.com/) •', '' );
 
 // Guide.md
 // -----------------------------------------------------------------------------
