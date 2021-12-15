@@ -7,7 +7,8 @@ import { Controller, GUI, injectStyles } from '../dist/lil-gui.esm.js';
 export default class CustomController extends Controller {
 
 	/**
-	 * todo
+	 * Register a custom controller. Adds its method to the GUI and inject its
+	 * stylesheet into the page.
 	 * @param {Function} CustomClass
 	 */
 	static register( CustomClass ) {
@@ -66,8 +67,9 @@ export default class CustomController extends Controller {
 	$updateDisplay( value ) {}
 
 	/**
-	 * todo
-	 * @param {T} value todo
+	 * Should return a copy of `value`. You don't need to implement this method
+	 * if you're targeting primitive values.
+	 * @param {T} value
 	 * @returns {T}
 	 */
 	$save( value ) {
@@ -75,7 +77,8 @@ export default class CustomController extends Controller {
 	}
 
 	/**
-	 * todo
+	 * Should copy all relevant properties from `target` to `source`. You don't
+	 * need to implement this method if you're targeting primitive values.
 	 * @param {T} target
 	 * @param {T} source
 	 */
@@ -84,10 +87,10 @@ export default class CustomController extends Controller {
 	}
 
 	/**
-	 * Call this method on any HTML form element before adding it to the controller's $widget.
+	 * Call this method on any HTML form element before adding it to `$widget`.
 	 * @param {HTMLElement} el An HTML form element used in this controller's widget.
-	 * @param {string} [name] Use this value when a widget has multiple form elements, in order
-	 * to distinguish them for assistive technologies.
+	 * @param {string} [name] Use this value when a widget has multiple form
+	 * elements in order to distinguish them to assistive technologies.
 	 */
 	$prepareFormElement( el, name ) {
 
@@ -95,6 +98,7 @@ export default class CustomController extends Controller {
 		this._formElements.push( el );
 
 		if ( name ) {
+			this.domElement.setAttribute( 'aria-labelledby', this.$name.id );
 			el.setAttribute( 'aria-label', name );
 		} else {
 			el.setAttribute( 'aria-labelledby', this.$name.id );
