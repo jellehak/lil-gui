@@ -107,19 +107,12 @@ export default class CustomController extends Controller {
 	}
 
 	/**
-	 * todo
-	 * @param {function(T)} setter
-	 * @param {boolean} [isFinal]
+	 * Call this function after modifying the result of `getValue()`. Only controllers
+	 * that target objects need to call this method.
 	 */
-	$modifyValue( setter, isFinal = false ) {
-
-		setter( this.getValue() );
-
+	$onModifyValue() {
 		this._callOnChange();
-		if ( isFinal ) this._callOnFinishChange();
-
 		this.updateDisplay();
-
 	}
 
 	$onFinishChange() {
@@ -142,7 +135,9 @@ export default class CustomController extends Controller {
 	}
 
 	load( saved ) {
-		this.$modifyValue( value => this.$load( value, saved ), true );
+		this.$load( this.getValue(), saved );
+		this.$modifyValue();
+		this.$onFinishChange();
 		return this;
 	}
 
