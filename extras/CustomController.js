@@ -136,7 +136,7 @@ export default class CustomController extends Controller {
 
 	load( saved ) {
 		this.$load( this.getValue(), saved );
-		this.$modifyValue();
+		this.$onModifyValue();
 		this.$onFinishChange();
 		return this;
 	}
