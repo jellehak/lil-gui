@@ -16,9 +16,9 @@ export default class CustomController extends Controller {
 		const method = CustomClass.$method;
 
 		// Add scope to each css declaration
-		const CSS_SELECTORS = /(?<=^|\}\s*)[\S ]+?(?=\s*\{)/gm;
-		const scoped = `.lil-gui .controller.${method} $&`;
-		const style = CustomClass.$style.replace( CSS_SELECTORS, scoped );
+		const CSS_SELECTOR = /(^|\}\s*?)([\S ]+?\s*?\{)/gm;
+		const scoped = `$1.lil-gui .controller.${method} $2`;
+		const style = CustomClass.$style.replace( CSS_SELECTOR, scoped );
 
 		injectStyles( style );
 
