@@ -41,20 +41,10 @@ export default class CustomController extends Controller {
 		// Used for reset().
 		this._initialValue = this.save();
 
-		// List of HTML form elements to disable
-		this._toDisable = Array.from( this.$widget.querySelectorAll( [
-			'input',
-			'label',
-			'select',
-			'textarea',
-			'button',
-			'fieldset',
-			'legend',
-			'datalist',
-			'output',
-			'option',
-			'optgroup'
-		].join( ',' ) ) );
+		this._toDisable = [];
+
+		// Makes form elements disable-able and gives them aria labels.
+		this._prepareFormElements();
 
 		this.updateDisplay();
 
@@ -121,6 +111,37 @@ export default class CustomController extends Controller {
 	 */
 	$onFinishChange() {
 		this._callOnFinishChange();
+	}
+
+	_prepareFormElements() {
+
+		const SELECTORS = [
+			'*[tabindex]',
+			'input',
+			'label',
+			'select',
+			'textarea',
+			'button',
+			'fieldset',
+			'legend',
+			'datalist',
+			'output',
+			'option',
+			'optgroup'
+		];
+
+		const elements = this.$widget.querySelectorAll( SELECTORS.join( ',' ) );
+
+		Array.from( elements ).forEach( el => {
+
+			this._toDisable.push( el );
+
+			if ( !el.hasAttribute( 'aria-label' ) && !el.hasAttribute( 'aria-labelledby' ) ) {
+				el.setAttribute( 'aria-labelledby', this.$name.id );
+			}
+
+		} );
+
 	}
 
 	disable( disabled ) {
