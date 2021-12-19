@@ -78,8 +78,10 @@ export default class CustomController extends Controller {
 	/**
 	 * Called on controller creation. Receives all the parameters after
 	 * gui.addXXX( object, property, ...
+	 * @param {...any} args
 	 */
-	$constructor() {}
+	// eslint-disable-next-line no-unused-vars
+	$constructor( ...args ) {}
 
 	/**
 	 * Should update the controller's widget to reflect the current value.
@@ -106,7 +108,7 @@ export default class CustomController extends Controller {
 	}
 
 	/**
-	 * Call this function after modifying the result of `getValue()`. Only controllers
+	 * Call this method after modifying the result of `getValue()`. Only controllers
 	 * that target objects need to call this method.
 	 */
 	$onModifyValue() {
@@ -114,6 +116,9 @@ export default class CustomController extends Controller {
 		this.updateDisplay();
 	}
 
+	/**
+	 * Call this method after your controller loses focus.
+	 */
 	$onFinishChange() {
 		this._callOnFinishChange();
 	}
