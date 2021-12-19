@@ -13,17 +13,17 @@ export default class CustomController extends Controller {
 	 */
 	static register( CustomClass ) {
 
-		const method = CustomClass.$method;
+		const id = CustomClass.$id;
 
 		// Add scope to each css declaration
 		const CSS_SELECTOR = /(^|\}\s*?)([\S ]+?\s*?\{)/gm;
-		const scoped = `$1.lil-gui .controller.${method} $2`;
+		const scoped = `$1.lil-gui .controller.${id} $2`;
 		const style = CustomClass.$style.replace( CSS_SELECTOR, scoped );
 
 		injectStyles( style );
 
 		// Register creation method
-		GUI.prototype[ method ] = function() {
+		GUI.prototype[ 'add' + id ] = function() {
 			return new CustomClass( this, ...arguments );
 		};
 
@@ -33,24 +33,46 @@ export default class CustomController extends Controller {
 
 		super( parent, object, property, 'custom' );
 
-		/**
-		 * List of HTML elements passed to $prepareFormElement. Used in disable().
-		 * @type {HTMLElement[]}
-		 */
-		this._formElements = [];
-
-		/**
-		 * Used for reset().
-		 * @type {T}
-		 */
-		this._initialValue = this.save();
-
 		// Used to scope styles to this controller
-		this.domElement.classList.add( this.constructor.$method );
+		this.domElement.classList.add( this.constructor.$id );
 
 		this.$constructor( ...args );
+
+		// Used for reset().
+		this._initialValue = this.save();
+
+		// List of HTML form elements to disable
+		this._toDisable = Array.from( this.$widget.querySelectorAll( [
+			'input',
+			'label',
+			'select',
+			'textarea',
+			'button',
+			'fieldset',
+			'legend',
+			'datalist',
+			'output',
+			'option',
+			'optgroup'
+		].join( ',' ) ) );
+
 		this.updateDisplay();
 
+	}
+
+	/**
+	 * The value targeted by this controller.
+	 * @returns {T}
+	 */
+	get value() {
+		return this.getValue();
+	}
+
+	/**
+	 * Assigning this property will update the display and fire change events.
+	 */
+	set value( value ) {
+		this.setValue( value );
 	}
 
 	/**
@@ -60,50 +82,28 @@ export default class CustomController extends Controller {
 	$constructor() {}
 
 	/**
-	 * Should update the controller's widget to reflect a given value.
-	 * @param {T} value
+	 * Should update the controller's widget to reflect the current value.
 	 */
 	// eslint-disable-next-line no-unused-vars
-	$updateDisplay( value ) {}
+	$updateDisplay() {}
 
 	/**
-	 * Should return a copy of `value`. You don't need to implement this method
+	 * Should return a copy of `this.getValue()`. You don't need to implement this method
 	 * if you're targeting primitive values.
-	 * @param {T} value
 	 * @returns {T}
 	 */
-	$save( value ) {
-		return value;
+	$save() {
+		return this.getValue();
 	}
 
 	/**
-	 * Should copy all relevant properties from `target` to `source`. You don't
+	 * Should copy all relevant properties from `target` to `this.getValue()`. You don't
 	 * need to implement this method if you're targeting primitive values.
-	 * @param {T} target
 	 * @param {T} source
 	 */
-	$load( target, source ) {
+	$load( source ) {
 		this.setValue( source );
-	}
-
-	/**
-	 * Call this method on any HTML form element before adding it to `$widget`.
-	 * @param {HTMLElement} el An HTML form element used in this controller's widget.
-	 * @param {string} [name] Use this value when a widget has multiple form
-	 * elements in order to distinguish them to assistive technologies.
-	 */
-	$prepareFormElement( el, name ) {
-
-		// Collect for disable()
-		this._formElements.push( el );
-
-		if ( name ) {
-			this.domElement.setAttribute( 'aria-labelledby', this.$name.id );
-			el.setAttribute( 'aria-label', name );
-		} else {
-			el.setAttribute( 'aria-labelledby', this.$name.id );
-		}
-
+		this.value;
 	}
 
 	/**
@@ -121,21 +121,21 @@ export default class CustomController extends Controller {
 
 	disable( disabled ) {
 		super.disable( disabled );
-		this._formElements.forEach( el => el.toggleAttribute( 'disabled', disabled ) );
+		this._toDisable.forEach( el => el.toggleAttribute( 'disabled', disabled ) );
 		return this;
 	}
 
 	updateDisplay() {
-		this.$updateDisplay( this.getValue() );
+		this.$updateDisplay();
 		return this;
 	}
 
 	save() {
-		return this.$save( this.getValue() );
+		return this.$save();
 	}
 
 	load( saved ) {
-		this.$load( this.getValue(), saved );
+		this.$load( saved );
 		this.$onModifyValue();
 		this.$onFinishChange();
 		return this;
