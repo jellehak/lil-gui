@@ -84,7 +84,6 @@ export default class CustomController extends Controller {
 	/**
 	 * Should update the controller's widget to reflect the current value.
 	 */
-	// eslint-disable-next-line no-unused-vars
 	$updateDisplay() {}
 
 	/**
