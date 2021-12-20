@@ -90,8 +90,7 @@ export default class CustomController extends Controller {
 	}
 
 	/**
-	 * Call this method after modifying the result of `getValue()`. Only controllers
-	 * that target objects need to call this method.
+	 * Call this method after modifying a property of `this.value`.
 	 */
 	$onModifyValue() {
 		this._callOnChange();
