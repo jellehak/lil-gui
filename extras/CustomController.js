@@ -13,17 +13,9 @@ export default class CustomController extends Controller {
 	 */
 	static register( CustomClass ) {
 
-		const id = CustomClass.$id;
+		injectStyles( CustomClass.$style );
 
-		// Add scope to each css declaration
-		const CSS_SELECTOR = /(^|\}\s*?)([\S ]+?\s*?\{)/gm;
-		const scoped = `$1.lil-gui .controller.${id} $2`;
-		const style = CustomClass.$style.replace( CSS_SELECTOR, scoped );
-
-		injectStyles( style );
-
-		// Register creation method
-		GUI.prototype[ 'add' + id ] = function() {
+		GUI.prototype[ 'add' + CustomClass.$id ] = function() {
 			return new CustomClass( this, ...arguments );
 		};
 
