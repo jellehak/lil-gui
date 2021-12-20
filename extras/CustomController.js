@@ -33,6 +33,7 @@ export default class CustomController extends Controller {
 		// Used for reset().
 		this._initialValue = this.save();
 
+		// Elements that need the "disable" attribute are collected here.
 		this._toDisable = [];
 
 		// Makes form elements disable-able and gives them aria labels.
@@ -86,7 +87,6 @@ export default class CustomController extends Controller {
 	 */
 	$load( source ) {
 		this.setValue( source );
-		this.value;
 	}
 
 	/**
