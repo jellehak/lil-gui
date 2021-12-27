@@ -92,7 +92,7 @@ export default class CustomController extends Controller {
 	/**
 	 * Call this method after modifying a property of `this.value`.
 	 */
-	$onModifyValue() {
+	$onChange() {
 		this._callOnChange();
 		this.updateDisplay();
 	}
@@ -152,7 +152,7 @@ export default class CustomController extends Controller {
 
 	load( saved ) {
 		this.$load( saved );
-		this.$onModifyValue();
+		this.$onChange();
 		this.$onFinishChange();
 		return this;
 	}
