@@ -47,14 +47,14 @@ export default class CustomController extends Controller {
 	 * The value targeted by this controller.
 	 * @returns {T}
 	 */
-	get value() {
+	get $value() {
 		return this.getValue();
 	}
 
 	/**
 	 * Assigning this property will update the display and fire change events.
 	 */
-	set value( value ) {
+	set $value( value ) {
 		this.setValue( value );
 	}
 
@@ -72,7 +72,7 @@ export default class CustomController extends Controller {
 	$updateDisplay() {}
 
 	/**
-	 * Should return a copy of `this.getValue()`. You don't need to implement this method
+	 * Should return a copy of `this.$value`. You don't need to implement this method
 	 * if you're targeting primitive values.
 	 * @returns {T}
 	 */
@@ -81,7 +81,7 @@ export default class CustomController extends Controller {
 	}
 
 	/**
-	 * Should copy all relevant properties from `target` to `this.getValue()`. You don't
+	 * Should copy all relevant properties from `target` to `this.$value`. You don't
 	 * need to implement this method if you're targeting primitive values.
 	 * @param {T} source
 	 */
@@ -90,7 +90,7 @@ export default class CustomController extends Controller {
 	}
 
 	/**
-	 * Call this method after modifying a property of `this.value`.
+	 * Call this method after modifying a property of `this.$value`.
 	 */
 	$onChange() {
 		this._callOnChange();
