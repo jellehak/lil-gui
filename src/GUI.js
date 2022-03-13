@@ -8,7 +8,7 @@ import NumberController from './NumberController';
 import OptionController from './OptionController';
 import StringController from './StringController';
 
-import stylesheet from 'stylesheet';
+import stylesheet from '../style/index.scss';
 import _injectStyles from './utils/injectStyles';
 
 let stylesInjected = false;
